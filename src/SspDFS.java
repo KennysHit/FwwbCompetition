@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * 单一源路径查找
+ * 深度优先遍历的单一源路径查找
  */
-public class sspDFS {
+public class SspDFS {
 	private Graph graph;
 	private int sourcePoint; //源点
 	private int target; //终点
@@ -18,40 +18,40 @@ public class sspDFS {
 	 * @param sourcePoint 源点
 	 * @param target 目标点
 	 */
-	public sspDFS(Graph graph, int sourcePoint, int target) {
+	public SspDFS(Graph graph, int sourcePoint, int target) {
 		// TODO Auto-generated constructor stub
 		this.graph = graph;
 		this.sourcePoint = sourcePoint;
 		this.target = target;
-		this.visited = new boolean[graph.getV()];
-		this.pre = new int[graph.getV()];
+		visited = new boolean[graph.getV()];
+		pre = new int[graph.getV()];
 		
-		for(int i=0;i<this.graph.getV();i++) {
-			this.visited[i] = false;
+		for(int i=0;i<graph.getV();i++) {
+			visited[i] = false;
 		}
-		for(int i=0;i<this.graph.getV();i++) {
-			this.pre[i] = -1;
+		for(int i=0;i<graph.getV();i++) {
+			pre[i] = -1;
 		}
 		
-		dfs(this.sourcePoint, this.sourcePoint, this.target);
+		dfs(sourcePoint, sourcePoint, target);
 	}
 	
 	/**
 	 * 将路径上各点的前置节点存入pre列表中
-	 * @param sourcePoint 源点
+	 * @param source 源点
 	 * @param parent 该点的前置节点
 	 * @param target 目标节点
 	 * @return ture：源点到目标节点存在一条路径 / false：源点到目标节点不存在一条路径
 	 */
-	private boolean dfs(int sourcePoint, int parent, int target) {
-		this.visited[sourcePoint] = true;
-		this.pre[sourcePoint] = parent;
-		if(sourcePoint == target) {
+	private boolean dfs(int source, int parent, int target) {
+		visited[source] = true;
+		pre[source] = parent;
+		if(source == target) {
 			return true;
 		}
-		for(int w : this.graph.consecutivePoint(sourcePoint)) {
-			if(!this.visited[w]) {
-				if(dfs(w, sourcePoint, target)) {
+		for(int w: graph.consecutivePoint(source)) {
+			if(!visited[w]) {
+				if(dfs(w, source, target)) {
 					return true;
 				}
 			}
@@ -60,7 +60,7 @@ public class sspDFS {
 	}
 	
 	public boolean isConnectTo(int target) {
-		return this.visited[target];
+		return visited[target];
 	}
 	
 	/**
@@ -69,30 +69,30 @@ public class sspDFS {
 	 */
 	public Iterable<Integer> findPath(){
 		ArrayList<Integer> result = new ArrayList<Integer>();
-		if(!isConnectTo(this.target)) return null;
+		if(!isConnectTo(target)) return null;
 		
-		int current = this.target;
-		while(current!=this.sourcePoint) {
+		int current = target;
+		while(current!=sourcePoint) {
 			result.add(current);
 			current = pre[current];
 		}
-		result.add(this.sourcePoint);
+		result.add(sourcePoint);
 		Collections.reverse(result);
 		
 		return result;
 	}
 	
 	public int[] getPre() {
-		return this.pre;
+		return pre;
 	}
 	
 	public boolean[] getVisited() {
-		return this.visited;
+		return visited;
 	}
 	
 	public static void main(String[] args) {
 		Graph graph = new Graph("graph.txt");
-		sspDFS singleSourcePath = new sspDFS(graph, 1, 4);
+		SspDFS singleSourcePath = new SspDFS(graph, 1, 4);
 		System.out.println("1->4:" + singleSourcePath.findPath());
 		for(int w : singleSourcePath.getPre()) {
 			System.out.print(String.valueOf(w) + " ");

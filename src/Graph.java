@@ -1,10 +1,9 @@
-/**
- * 图结构类
- */
-
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Scanner;
+/**
+ * 图结构类
+ */
 
 public class Graph {
 	private int V; //节点的个数
@@ -18,14 +17,14 @@ public class Graph {
 		try {
 			scanner = new Scanner(new File(fileName));
 			
-			this.V = scanner.nextInt();
-			this.adj = new LinkedList[this.V];
-			for(int i=0;i<this.V;i++) {
+			V = scanner.nextInt();
+			adj = new LinkedList[V];
+			for(int i=0;i<V;i++) {
 				adj[i] = new LinkedList<Integer>();
 			}
-			this.E = scanner.nextInt();
+			E = scanner.nextInt();
 			
-			for(int i=0;i<this.E;i++) {
+			for(int i=0;i<E;i++) {
 				int a = scanner.nextInt();
 				int b = scanner.nextInt();
 				
@@ -62,8 +61,8 @@ public class Graph {
 	public String toString() {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("%d %d\n", this.V, this.E));
-		for(int i=0;i<this.V;i++) {
+		sb.append(String.format("%d %d\n", V, E));
+		for(int i=0;i<V;i++) {
 			sb.append(String.format("%d : ",i));
 			for(int w : adj[i]) {
 				sb.append(String.format("%d ", w));

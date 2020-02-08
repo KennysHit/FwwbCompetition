@@ -12,32 +12,32 @@ public class GraphDFS {
 	
 	public GraphDFS(Graph graph) {
 		// TODO Auto-generated constructor stub
-		this.graph = graph;
-		this.visited = new boolean[this.graph.getV()];
-		for(int i=0;i<this.graph.getV();i++) {
-			this.visited[i] = false;
+		graph = graph;
+		visited = new boolean[graph.getV()];
+		for(int i=0;i<graph.getV();i++) {
+			visited[i] = false;
 		}
 		
-		for(int i=0;i<this.graph.getV();i++) {
-			if(!this.visited[i]) {
-				this.dfs(i);
-				this.result.add(-1); //-1为一个连通分量分界线
+		for(int i=0;i<graph.getV();i++) {
+			if(!visited[i]) {
+				dfs(i);
+				result.add(-1); //-1为一个连通分量分界线
 			}
 		}
 	}
 	
-	public void dfs(int sourcePoint) {
-		this.visited[sourcePoint] = true;
-		this.result.add(sourcePoint);
-		for(int w : this.graph.consecutivePoint(sourcePoint)) {
-			if(!this.visited[w]) {
+	private void dfs(int source) {
+		visited[source] = true;
+		result.add(source);
+		for(int w: graph.consecutivePoint(source)) {
+			if(!visited[w]) {
 				dfs(w);
 			}
 		}
 	}
 	
 	public Iterable<Integer> getResult() {
-		return this.result;
+		return result;
 	}
 	
 	public static void main(String[] args) {

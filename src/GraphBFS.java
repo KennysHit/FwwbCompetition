@@ -15,36 +15,36 @@ public class GraphBFS {
 	public GraphBFS(Graph graph) {
 		// TODO Auto-generated constructor stub
 		this.graph = graph;
-		this.visited = new boolean[this.graph.getV()];
-		for(int i=0;i<this.graph.getV();i++) {
-			this.visited[i] = false;
+		visited = new boolean[graph.getV()];
+		for(int i=0;i<graph.getV();i++) {
+			visited[i] = false;
 		}
-		for(int i=0;i<this.graph.getV();i++) {
-			if(!this.visited[i]) {
-				this.bfs(i);
-				this.result.add(-1); //-1为一个连通分量分界线
+		for(int i=0;i<graph.getV();i++) {
+			if(!visited[i]) {
+				bfs(i);
+				result.add(-1); //-1为一个连通分量分界线
 			}
 		}
 	}
 	
-	public void bfs(int sourcePoint) {
+	private void bfs(int source) {
 		Queue<Integer> queue = new LinkedList<Integer>();
-		queue.add(sourcePoint);
-		this.visited[sourcePoint] = true;
+		queue.add(source);
+		visited[source] = true;
 		while(!queue.isEmpty()) {
 			int out = queue.remove();
 			this.result.add(out);
-			for(int w : this.graph.consecutivePoint(sourcePoint)) {
-				if(!this.visited[w]) {
+			for(int w : graph.consecutivePoint(out)) {
+				if(!visited[w]) {
 					queue.add(w);
-					this.visited[w] = true;
+					visited[w] = true;
 				}
 			}
 		}
 	}
 	
 	public Iterable<Integer> getResult() {
-		return this.result;
+		return result;
 	}
 	
 	public static void main(String[] args) {

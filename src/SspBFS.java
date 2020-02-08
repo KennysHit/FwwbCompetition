@@ -4,10 +4,10 @@ import java.util.Queue;
 import java.util.Collections;
 
 /**
- * 广度优先遍历
+ * 广度优先遍历的单一源路径查找
  * @author kennys
  */
-public class sspBFS {
+public class SspBFS {
 	private Graph graph;
 	private int sourcePoint;
 	private int target;
@@ -15,36 +15,36 @@ public class sspBFS {
 	private int[] pre;
 	private boolean[] visited;
 	
-	public sspBFS(Graph graph, int sourcePoint, int target) {
+	public SspBFS(Graph graph, int sourcePoint, int target) {
 		// TODO Auto-generated constructor stub
 		this.graph = graph;
 		this.sourcePoint = sourcePoint;
 		this.target = target;
-		this.visited = new boolean[this.graph.getV()];
-		this.pre = new int[this.graph.getV()];
-		for(int i=0;i<this.graph.getV();i++) {
-			this.visited[i] = false;
+		visited = new boolean[graph.getV()];
+		pre = new int[graph.getV()];
+		for(int i=0;i<graph.getV();i++) {
+			visited[i] = false;
 		}
-		for(int i=0;i<this.graph.getV();i++) {
-			this.pre[i] = -1;
+		for(int i=0;i<graph.getV();i++) {
+			pre[i] = -1;
 		}
-		this.bfs(this.sourcePoint, this.target);
+		bfs(this.sourcePoint, this.target);
 	}
 	
-	public void bfs(int sourcePoint, int target) {
+	private void bfs(int source, int target) {
 		Queue<Integer> queue = new LinkedList<Integer>();
-		queue.add(sourcePoint);
-		this.pre[sourcePoint] = sourcePoint;
-		this.visited[sourcePoint] = true;
-		if(sourcePoint==target) return;
+		queue.add(source);
+		pre[source] = source;
+		visited[source] = true;
+		if(source==target) return;
 		while(!queue.isEmpty()) {
 			int out = queue.remove();
 			if(out==target) return;
-			for(int w : this.graph.consecutivePoint(out)) {
-				if(!this.visited[w]) {
+			for(int w: graph.consecutivePoint(out)) {
+				if(!visited[w]) {
 					queue.add(w);
-					this.visited[w] = true;
-					this.pre[w] = out;
+					visited[w] = true;
+					pre[w] = out;
 				}
 			}
 		}
@@ -52,11 +52,11 @@ public class sspBFS {
 	
 	public Iterable<Integer> findPath() {
 		ArrayList<Integer> result = new ArrayList<Integer>();
-		int current = this.target;
+		int current = target;
 		if(this.visited[current]==false) return null;
-		while(current!=this.sourcePoint) {
+		while(current!=sourcePoint) {
 			result.add(current);
-			current = this.pre[current];
+			current = pre[current];
 		}
 		result.add(current);
 		Collections.reverse(result);
@@ -65,7 +65,7 @@ public class sspBFS {
 	
 	public String getVisited() {
 		StringBuilder stringBuilder = new StringBuilder();
-		for(boolean w : this.visited) {
+		for(boolean w : visited) {
 			stringBuilder.append(String.format("%s ", w));
 		}
 		return stringBuilder.toString();
@@ -73,17 +73,17 @@ public class sspBFS {
 	
 	public String getPre() {
 		StringBuilder stringBuilder = new StringBuilder();
-		for(int w : this.pre) {
+		for(int w: pre) {
 			stringBuilder.append(String.format("%d ", w));
 		}
 		return stringBuilder.toString();
 	}
 	public static void main(String[] args) {
 		Graph graph = new Graph("graph.txt");
-		sspBFS sspBFS = new sspBFS(graph, 2, 0);
+		SspBFS sspBFS = new SspBFS(graph, 2, 0);
 		System.out.println(sspBFS.getPre());
 		System.out.println(sspBFS.getVisited());
-		System.out.print(sspBFS.findPath());
+		System.out.print("2->0: " + sspBFS.findPath());
 		
 	}
 }
