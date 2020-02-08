@@ -1,7 +1,11 @@
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 public class BridgeDFS {
 
     private Graph graph;
-    private int bridge;
+    private HashSet<String> bridge =  new HashSet<String>();
     private int record = 0;
     private Boolean[] visited;
     private int[] order;
@@ -16,7 +20,12 @@ public class BridgeDFS {
         order = new int[this.graph.getV()];
         low = new int[this.graph.getV()];
         order[0] = -1;
-        dfs(0,0);
+        for(int i=0;i<graph.getV();i++){
+            if(!visited[i]){
+                dfs(0,0);
+            }
+        }
+
     }
 
     private void dfs(int source, int parent){
@@ -27,20 +36,16 @@ public class BridgeDFS {
         for (int w: graph.consecutivePoint(source)){
             if(!visited[w]){
                 dfs(w,source);
-                if(low[source]>=low[w]){
-                    low[source] = low[w];
-                }
+                low[source] = Math.min(low[source], low[w]);
                 if(order[source]<low[w]){
-                    bridge++;
+                    bridge.add(String.valueOf(source) + "-" + String.valueOf(w));
                 }
             }else if(visited[w] && w != parent){
-                if(low[source]>=order[w]){
-                    low[source] = order[w];
-                }
+                low[source] = Math.min(low[source], low[w]);
             }
         }
     }
-    public int getBridge(){
+    public HashSet<String> getBridge(){
         return bridge;
     }
 
