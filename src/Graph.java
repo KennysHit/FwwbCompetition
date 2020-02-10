@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 /**
@@ -89,6 +90,7 @@ public class Graph {
 	}
 	public static void main(String[] args) {
 		Graph adjList = new Graph("graph.txt");
-		System.out.println(adjList);
+		System.out.println(Arrays.toString(adjList.getGoods()));
+
 	}
 }

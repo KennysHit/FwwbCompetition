@@ -1,6 +1,8 @@
 import javax.swing.*;
 
 
+import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,8 +36,10 @@ public class Main {
                 frame = new MyFrame();
                 // 显示窗口
                 frame.setVisible(true);
+
             }
         });
+
     }
 
     //窗口
@@ -96,6 +100,7 @@ public class Main {
 				// TODO Auto-generated method stub
 				main.initPoints();
 				main.initRoads();
+				main.writeWeight();
 				panel.updateUI();
 			}
 		});
@@ -107,7 +112,6 @@ public class Main {
 
 }
 
-    
     //绘图版面
     public static class MyPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -116,7 +120,6 @@ public class Main {
             super();
         }
 
-        
         //绘制面板的内容: 创建 JPanel 后会调用一次该方法绘制内容
         //之后如果数据改变需要重新绘制, 可调用 updateUI() 方法触发
         //系统再次调用该方法绘制更新 JPanel 的内容。
@@ -126,10 +129,10 @@ public class Main {
             super.paintComponent(g);
 
             // 重新调用 Graphics 的绘制方法绘制时将自动擦除旧的内容
-
             drawMap(g);
 
         }
+
         private void drawMap(Graphics g) {
 
             // 创建 Graphics 的副本, 需要改变 Graphics 的参数,
@@ -180,57 +183,38 @@ public class Main {
             	g2d.drawString("▲"+String.valueOf(mapPoint.get(key).getName()),
             			mapPoint.get(key).getPosition().getX()+50,
             			600-mapPoint.get(key).getPosition().getY());
-            	
             }
-//            0(260,270)
-//            1(520,410)&1.5
-//            2(130,460)&2.5
-//            3(600,537)&3.5
-//            4(539,278)&0.5
-//            5(111,130)&2
-
             // 销毁副本
             g2d.dispose();
-            
-            
+        }
+    }
+
+    //将路径长度写入文件
+    private void writeWeight(){
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("weight.txt"));
+            Iterator<String> iterator = mapRoad.keySet().iterator();
+            while(iterator.hasNext()){
+                String key = iterator.next();
+                System.out.println(mapRoad.get(key) + ": " + mapRoad.get(key).getDistance());
+                String s = String.valueOf(mapRoad.get(key).getDistance());
+                bw.write(s);
+                bw.newLine();
+            }
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
-    
-    //遍历找出所有的分区方案
-	public void findAllModule(Point point, float goods, HashSet<Point> hashSet) {
-		
-    }
-    
-    //将相邻配送点以最大装配率，和最短配送时间权重分区
-    public void splitPoint() {
-    	
-    }
-    
-    //根据配送区设定配送路线
-    public void setRoute() {}
-    
-    //计算时间
-    public float calculateTime(float km) {
-    	return km / 10;
-    }
-    //计算某区域的配送总货物重量
-    public float caculateWeight(ArrayList<Point> al) {
-    	float sum = 0;
-    	Iterator<Point> iterator = al.iterator();
-    	while (iterator.hasNext()) {
-			Point point = (Point) iterator.next();
-			sum += point.getGoods();
-		}
-    	return sum;
-	}
-   
+
     //初始化画板坐标点
-    public void initPoints() {
+    private void initPoints() {
     	mapPoint = ReadPoints.getRead("points.txt");
 	}
     //初始化画板路径
-    public void initRoads() {
+    private void initRoads() {
     	Graph graph = new Graph("Graph.txt");
     	for(int v=0;v<graph.getV();v++) {
     		for(int w : graph.getNeighbor(v)) {

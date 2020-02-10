@@ -6,13 +6,11 @@ public class Point {
 	public Point() {
 		
 	}
-	public Point(int name, Position p, float goods) {
+	public Point(int name, Position p) {
 		this.name = name;
 		this.position = p;
-		this.goods = goods;
 	}
 	public int getName() {
-
 		return name;
 	}
 	
@@ -26,14 +24,6 @@ public class Point {
 	
 	public void setPosition(Position position) {
 		this.position = position;
-	}
-	
-	public float getGoods() {
-		return goods;
-	}
-	
-	public void setGoods(float goods) {
-		this.goods = goods;
 	}
 
 	@Override
