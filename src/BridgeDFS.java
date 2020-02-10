@@ -1,6 +1,4 @@
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 public class BridgeDFS {
 
@@ -19,7 +17,7 @@ public class BridgeDFS {
         }
         order = new int[this.graph.getV()];
         low = new int[this.graph.getV()];
-        order[0] = -1;
+
         for(int i=0;i<graph.getV();i++){
             if(!visited[i]){
                 dfs(0,0);
@@ -33,7 +31,7 @@ public class BridgeDFS {
         order[source] = record;
         low[source] = record;
         record++;
-        for (int w: graph.consecutivePoint(source)){
+        for (int w: graph.getNeighbor(source)){
             if(!visited[w]){
                 dfs(w,source);
                 low[source] = Math.min(low[source], low[w]);

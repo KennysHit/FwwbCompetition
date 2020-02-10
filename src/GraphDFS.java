@@ -29,7 +29,7 @@ public class GraphDFS {
 	private void dfs(int source) {
 		visited[source] = true;
 		result.add(source);
-		for(int w: graph.consecutivePoint(source)) {
+		for(int w: graph.getNeighbor(source)) {
 			if(!visited[w]) {
 				dfs(w);
 			}

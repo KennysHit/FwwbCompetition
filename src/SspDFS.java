@@ -49,7 +49,7 @@ public class SspDFS {
 		if(source == target) {
 			return true;
 		}
-		for(int w: graph.consecutivePoint(source)) {
+		for(int w: graph.getNeighbor(source)) {
 			if(!visited[w]) {
 				if(dfs(w, source, target)) {
 					return true;

@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
 /**
@@ -9,6 +10,7 @@ public class Graph {
 	private int V; //节点的个数
 	private int E; //所有节点之间边的个数
 	private LinkedList<Integer>[] adj;
+	private float[] goods;
 	
 	@SuppressWarnings("unchecked")
 	public Graph(String fileName) {
@@ -19,6 +21,7 @@ public class Graph {
 			
 			V = scanner.nextInt();
 			adj = new LinkedList[V];
+			goods = new float[V];
 			for(int i=0;i<V;i++) {
 				adj[i] = new LinkedList<Integer>();
 			}
@@ -45,16 +48,29 @@ public class Graph {
 	public int getV() {
 		return V;
 	}
-	/**
-	 * 得到某一点的相邻节点
-	 * @param 待查寻的某一点
-	 * @return 该点的相邻节点
-	 */
-	public Iterable<Integer> consecutivePoint(int i){
+
+	public LinkedList<Integer> getNeighbor(int i){
 		return adj[i];
 	}
+
 	public int getE() {
 		return E;
+	}
+
+	private void readGoods(){
+		try {
+			Scanner scanner = new Scanner(new File("goods.txt"));
+			for(int i=0;i<getV();i++){
+				goods[i] = scanner.nextFloat();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public float[] getGoods(){
+		readGoods();
+		return goods;
 	}
 	
 	@Override

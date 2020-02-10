@@ -34,7 +34,7 @@ public class GraphBFS {
 		while(!queue.isEmpty()) {
 			int out = queue.remove();
 			this.result.add(out);
-			for(int w : graph.consecutivePoint(out)) {
+			for(int w : graph.getNeighbor(out)) {
 				if(!visited[w]) {
 					queue.add(w);
 					visited[w] = true;

@@ -233,7 +233,7 @@ public class Main {
     public void initRoads() {
     	Graph graph = new Graph("Graph.txt");
     	for(int v=0;v<graph.getV();v++) {
-    		for(int w : graph.consecutivePoint(v)) {
+    		for(int w : graph.getNeighbor(v)) {
     			Point pointA = mapPoint.get(v);
     			Point pointB = mapPoint.get(w);
     			Road road = new Road(pointA, pointB);

@@ -40,7 +40,7 @@ public class SspBFS {
 		while(!queue.isEmpty()) {
 			int out = queue.remove();
 			if(out==target) return;
-			for(int w: graph.consecutivePoint(out)) {
+			for(int w: graph.getNeighbor(out)) {
 				if(!visited[w]) {
 					queue.add(w);
 					visited[w] = true;
