@@ -1,22 +1,25 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class DFSPermutationGenerator {
-    private Graph graph;
+    private WeightGraph weightgraph;
     private boolean[] used;
     private int[] result;
     private float[] goods;
+    private LinkedList<int[]> allResults = new LinkedList<int[]>();
 
-    public DFSPermutationGenerator(Graph graph) {
-        this.graph = graph;
-        goods = graph.getGoods();
-        used = new boolean[graph.getV()+1];
-        result = new int[graph.getV()-1];
+    public DFSPermutationGenerator(WeightGraph weightGraph) {
+        this.weightgraph = weightGraph;
+        goods = weightGraph.getGoods();
+        used = new boolean[weightGraph.getV()+1];
+        result = new int[weightGraph.getV()-1];
         find(0);
     }
 
-    public void find(int level) {
-        for (int i = 2; i <= graph.getV() ; i++) {
+    private void find(int level) {
+        for (int i = 2; i <= weightgraph.getV() ; i++) {
             if (!used[i]) {
                 used[i] = true;
                 result[level] = i-1;
@@ -25,19 +28,27 @@ public class DFSPermutationGenerator {
             }
         }
 
-        if (level == graph.getV() - 1) {
-            if(graph.getNeighbor(result[0]).contains(result[1])
-                    && graph.getNeighbor(result[1]).contains(result[2])
-                    && graph.getNeighbor(result[2]).contains(result[3])
-                    && graph.getNeighbor(result[3]).contains(result[4])){
-                    System.out.println(Arrays.toString(result));
+        if (level == weightgraph.getV() - 1) {
+            if(weightgraph.getNeighbor(result[0]).containsKey(result[1])
+                    && weightgraph.getNeighbor(result[1]).containsKey(result[2])
+                    && weightgraph.getNeighbor(result[2]).containsKey(result[3])
+                    && weightgraph.getNeighbor(result[3]).containsKey(result[4])){
+                int[] a = (int[])result.clone();
+                allResults.add(a);
             }
 
         }
     }
+
+    public Iterable<int[]> getAllResult(){
+        return allResults;
+    }
     public static void main(String[] args) {
-        Graph graph = new Graph("graph.txt");
+        WeightGraph graph = new WeightGraph();
         DFSPermutationGenerator generator = new DFSPermutationGenerator(graph);
+        for(int[] w: generator.getAllResult()){
+            System.out.println(Arrays.toString(w));
+        }
     }
 
 }

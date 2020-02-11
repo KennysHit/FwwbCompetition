@@ -2,17 +2,17 @@
  * 位置类
  *
  */
-public class Position {
+public class Location {
 	
 	private int x = -1;
 	private int y = -1;
 	
-	public Position(int x, int y) {
+	public Location(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public Position() {
+	public Location() {
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -1,8 +1,10 @@
+import java.math.BigDecimal;
+
 public class Road {
 	
 	private String name = null;
-	private Point pointA;
-	private Point pointB;
+	private Vertex vertexA;
+	private Vertex vertexB;
 	private float distance;
 	private float driveTime;
 	
@@ -11,9 +13,9 @@ public class Road {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Road(Point A, Point B) {
-		this.pointA = A;
-		this.pointB = B;
+	public Road(Vertex A, Vertex B) {
+		this.vertexA = A;
+		this.vertexB = B;
 		this.setName();
 	}
 	public String getName() {
@@ -22,23 +24,23 @@ public class Road {
 	}
 	
 	private void setName() {
-		this.name = String.valueOf(this.pointA.getName()) + "-" + String.valueOf(this.pointB.getName());
+		this.name = String.valueOf(this.vertexA.getName()) + "-" + String.valueOf(this.vertexB.getName());
 	}
 
-	public Point getPointA() {
-		return pointA;
+	public Vertex getVertexA() {
+		return vertexA;
 	}
 
-	public void setPointA(Point pointA) {
-		this.pointA = pointA;
+	public void setVertexA(Vertex vertexA) {
+		this.vertexA = vertexA;
 	}
 
-	public Point getPointB() {
-		return pointB;
+	public Vertex getVertexB() {
+		return vertexB;
 	}
 
-	public void setPointB(Point pointB) {
-		this.pointB = pointB;
+	public void setVertexB(Vertex vertexB) {
+		this.vertexB = vertexB;
 	}
 
 	
@@ -68,8 +70,10 @@ public class Road {
 	
 	//计算两点间距离
 	private float calculateDistance() {
-    	return (float) Math.sqrt(Math.pow(this.pointA.getPosition().getX()-pointB.getPosition().getX(), 2) + 
-    			Math.pow(this.pointA.getPosition().getY()-pointB.getPosition().getY(), 2));
+    	float distance = (float) Math.sqrt(Math.pow(this.vertexA.getLocation().getX()- vertexB.getLocation().getX(), 2) +
+    			Math.pow(this.vertexA.getLocation().getY()- vertexB.getLocation().getY(), 2));
+		BigDecimal bd = new BigDecimal(distance);
+		return bd.setScale(2, BigDecimal.ROUND_DOWN).floatValue();
     }
 	
 	@Override

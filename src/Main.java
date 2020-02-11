@@ -2,10 +2,7 @@ import javax.swing.*;
 
 
 import java.io.*;
-import java.nio.Buffer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.awt.*;
@@ -21,7 +18,7 @@ public class Main {
 	public static final float DWCC_DEADWEIGHT_CARGO_CAPACITY_L = 2; //小车载重，单位：吨（t）
 	public static final float DWCC_DEADWEIGHT_CARGO_CAPACITY_XL = 5; //大车载重，单位：吨（t）
 	
-	public static Map<Integer, Point> mapPoint = new HashMap<Integer, Point>();
+	public static Map<Integer, Vertex> mapPoint = new HashMap<Integer, Vertex>();
 	public static Map<String, Road> mapRoad = new HashMap<String, Road>();
 	
     public static void main(String[] args) {
@@ -166,10 +163,10 @@ public class Main {
             while(iteratorRoad.hasNext()) {
             	String key = iteratorRoad.next().toString();
             	Road road = mapRoad.get(key);
-            	int x1 = road.getPointA().getPosition().getX();
-            	int y1 = road.getPointA().getPosition().getY();
-            	int x2 = road.getPointB().getPosition().getX();
-            	int y2 = road.getPointB().getPosition().getY();
+            	int x1 = road.getVertexA().getLocation().getX();
+            	int y1 = road.getVertexA().getLocation().getY();
+            	int x2 = road.getVertexB().getLocation().getX();
+            	int y2 = road.getVertexB().getLocation().getY();
             	g2d.drawLine(x1+50,600-y1,x2+50,600-y2);
             	
             }
@@ -181,8 +178,8 @@ public class Main {
             while(iteratorPoint.hasNext()) {
             	int key =  iteratorPoint.next();
             	g2d.drawString("▲"+String.valueOf(mapPoint.get(key).getName()),
-            			mapPoint.get(key).getPosition().getX()+50,
-            			600-mapPoint.get(key).getPosition().getY());
+            			mapPoint.get(key).getLocation().getX()+50,
+            			600-mapPoint.get(key).getLocation().getY());
             }
             // 销毁副本
             g2d.dispose();
@@ -211,19 +208,19 @@ public class Main {
 
     //初始化画板坐标点
     private void initPoints() {
-    	mapPoint = ReadPoints.getRead("points.txt");
+    	mapPoint = ReadVertexs.getRead("data/vertexs.txt");
 	}
     //初始化画板路径
     private void initRoads() {
-    	Graph graph = new Graph("Graph.txt");
-    	for(int v=0;v<graph.getV();v++) {
-    		for(int w : graph.getNeighbor(v)) {
-    			Point pointA = mapPoint.get(v);
-    			Point pointB = mapPoint.get(w);
-    			Road road = new Road(pointA, pointB);
-    			if(!mapRoad.containsKey(String.valueOf(pointB)+"-"+String.valueOf(pointA))) {
-    				mapRoad.put(road.getName(), road);
-    			}
+    	WeightGraph weightGraph = new WeightGraph();
+    	for(int v=0;v<weightGraph.getV();v++) {
+    	    for(Map.Entry<Integer, Float> entry: weightGraph.getNeighbor(v).entrySet()){
+                Vertex vertexA = mapPoint.get(v);
+                Vertex vertexB = mapPoint.get(entry.getKey());
+                Road road = new Road(vertexA, vertexB);
+                if(!mapRoad.containsKey(String.valueOf(vertexB)+"-"+String.valueOf(vertexA))) {
+                    mapRoad.put(road.getName(), road);
+                }
     		}
     	}
 	}

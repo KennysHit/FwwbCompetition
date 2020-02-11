@@ -1,14 +1,14 @@
-public class Point {
+public class Vertex {
 	private int name ;
-	private Position position = new Position() ;
+	private Location location = new Location() ;
 	private float goods ;
 	
-	public Point() {
+	public Vertex() {
 		
 	}
-	public Point(int name, Position p) {
+	public Vertex(int name, Location p) {
 		this.name = name;
-		this.position = p;
+		this.location = p;
 	}
 	public int getName() {
 		return name;
@@ -18,12 +18,12 @@ public class Point {
 		this.name = name;
 	}
 	
-	public Position getPosition() {
-		return position;
+	public Location getLocation() {
+		return location;
 	}
 	
-	public void setPosition(Position position) {
-		this.position = position;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	@Override
