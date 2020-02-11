@@ -24,6 +24,7 @@ public class WeightGraph {
             V = scanner1.nextInt();
             adj = new TreeMap[V];
             goods = new float[V];
+            readGoods();
             for(int i=0;i<V;i++) {
                 adj[i] = new TreeMap<Integer, Float>();
             }
@@ -81,7 +82,7 @@ public class WeightGraph {
 
     private void readGoods(){
         try {
-            Scanner scanner = new Scanner(new File("goods.txt"));
+            Scanner scanner = new Scanner(new File("data/goods.txt"));
             for(int i=0;i<getV();i++){
                 goods[i] = scanner.nextFloat();
             }
@@ -91,7 +92,6 @@ public class WeightGraph {
     }
 
     public float[] getGoods(){
-        readGoods();
         return goods;
     }
 
@@ -101,11 +101,11 @@ public class WeightGraph {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%d %d\n", V, E));
         for(int i=0;i<V;i++) {
-            sb.append(String.format("%d : ",i));
+            sb.append(String.format("%d - %.2f(t): ", i, goods[i]));
             Iterator<Integer> iterator = adj[i].keySet().iterator();
             while(iterator.hasNext()){
                 Integer key = iterator.next();
-                sb.append(String.format("(%d: %.2f), ", key, adj[i].get(key)));
+                sb.append(String.format("[->%d: %.2f(km)], ", key, adj[i].get(key)));
             }
             sb.append("\n");
         }
