@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Main {
-	
+
 	public static MyFrame frame = null;
 	public static final Main main = new Main();
 	public static final float ONCE_MAXIMUM_KILOMETRE = 35; //单词运送路程长度，单位：公里（km）
