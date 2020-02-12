@@ -8,31 +8,34 @@ public class DFSPermutationGenerator {
     private boolean[] used;
     private int[] result;
     private float[] goods;
-    private LinkedList<int[]> allResults = new LinkedList<int[]>();
+    private LinkedList<int[]> allResults;
 
     public DFSPermutationGenerator(WeightGraph weightGraph) {
         this.weightgraph = weightGraph;
         goods = weightGraph.getGoods();
         used = new boolean[weightGraph.getV()+1];
         result = new int[weightGraph.getV()-1];
+        allResults = new LinkedList<int[]>();
+
         find(0);
     }
 
     private void find(int level) {
-        for (int i = 2; i <= weightgraph.getV() ; i++) {
+        for (int i = 2; i <= weightgraph.getV() ; i++)
             if (!used[i]) {
                 used[i] = true;
                 result[level] = i-1;
                 find(level + 1);
                 used[i] = false;
             }
-        }
 
         if (level == weightgraph.getV() - 1) {
-            if(weightgraph.getNeighbor(result[0]).containsKey(result[1])
-                    && weightgraph.getNeighbor(result[1]).containsKey(result[2])
-                    && weightgraph.getNeighbor(result[2]).containsKey(result[3])
-                    && weightgraph.getNeighbor(result[3]).containsKey(result[4])){
+            boolean isAdd = true;
+
+            for(int i=0;i<weightgraph.getV()-2;i++)
+                if(!weightgraph.hasEdge(result[i], result[i+1])) isAdd = false;
+
+            if(isAdd){
                 int[] a = (int[])result.clone();
                 allResults.add(a);
             }
@@ -43,12 +46,13 @@ public class DFSPermutationGenerator {
     public Iterable<int[]> getAllResult(){
         return allResults;
     }
+
     public static void main(String[] args) {
         WeightGraph graph = new WeightGraph();
         DFSPermutationGenerator generator = new DFSPermutationGenerator(graph);
-        for(int[] w: generator.getAllResult()){
+
+        for(int[] w: generator.getAllResult())
             System.out.println(Arrays.toString(w));
-        }
     }
 
 }

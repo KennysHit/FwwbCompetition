@@ -25,9 +25,10 @@ public class WeightGraph {
             adj = new TreeMap[V];
             goods = new float[V];
             readGoods();
-            for(int i=0;i<V;i++) {
+
+            for(int i=0;i<V;i++)
                 adj[i] = new TreeMap<Integer, Float>();
-            }
+
             E = scanner1.nextInt();
 
             for(int i=0;i<E;i++) {
@@ -54,8 +55,8 @@ public class WeightGraph {
         return V;
     }
 
-    public TreeMap<Integer, Float> getNeighbor(int i){
-        return adj[i];
+    public Iterable<Integer> getNeighbor(int i){
+        return adj[i].keySet();
     }
 
     public int getE() {
@@ -64,15 +65,18 @@ public class WeightGraph {
 
     public float getWeight(int v, int w){
         if (hasEdge(v, w))
-            return getNeighbor(v).get(w);
-        else throw new IllegalArgumentException(String.format("Has No Edge:%d-%d", v, w));
+            return adj[v].get(w);
+        else
+            throw new IllegalArgumentException(String.format("Has No Edge:%d-%d", v, w));
     }
 
-    private boolean hasEdge(int v, int w){
+    public boolean hasEdge(int v, int w){
         validateVertex(v);
         validateVertex(w);
-        if(adj[v].containsKey(w)) return true;
-        else return false;
+        if(adj[v].containsKey(w))
+            return true;
+        else
+            return false;
     }
 
     private void validateVertex(int v){
@@ -83,9 +87,10 @@ public class WeightGraph {
     private void readGoods(){
         try {
             Scanner scanner = new Scanner(new File("data/goods.txt"));
-            for(int i=0;i<getV();i++){
+
+            for(int i=0;i<getV();i++)
                 goods[i] = scanner.nextFloat();
-            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -115,6 +120,5 @@ public class WeightGraph {
     public static void main(String[] args) {
        WeightGraph weightGraph = new WeightGraph();
        System.out.println(weightGraph);
-
     }
 }

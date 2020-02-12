@@ -6,10 +6,12 @@ public class Vertex {
 	public Vertex() {
 		
 	}
+
 	public Vertex(int name, Location p) {
 		this.name = name;
 		this.location = p;
 	}
+
 	public int getName() {
 		return name;
 	}

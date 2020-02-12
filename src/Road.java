@@ -18,6 +18,7 @@ public class Road {
 		this.vertexB = B;
 		this.setName();
 	}
+
 	public String getName() {
 		this.setName();
 		return this.name;
@@ -52,7 +53,6 @@ public class Road {
 		this.setDistance();
 		return distance;
 	}
-	
 
 	private void setDriveTime() {
 		this.driveTime = calculateTime();

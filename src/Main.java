@@ -189,7 +189,7 @@ public class Main {
     //将路径长度写入文件
     private void writeWeight(){
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("weight.txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("data/weight.txt"));
             Iterator<String> iterator = mapRoad.keySet().iterator();
             while(iterator.hasNext()){
                 String key = iterator.next();
@@ -214,9 +214,9 @@ public class Main {
     private void initRoads() {
     	WeightGraph weightGraph = new WeightGraph();
     	for(int v=0;v<weightGraph.getV();v++) {
-    	    for(Map.Entry<Integer, Float> entry: weightGraph.getNeighbor(v).entrySet()){
+    	    for(int w: weightGraph.getNeighbor(v)){
                 Vertex vertexA = mapPoint.get(v);
-                Vertex vertexB = mapPoint.get(entry.getKey());
+                Vertex vertexB = mapPoint.get(w);
                 Road road = new Road(vertexA, vertexB);
                 if(!mapRoad.containsKey(String.valueOf(vertexB)+"-"+String.valueOf(vertexA))) {
                     mapRoad.put(road.getName(), road);
