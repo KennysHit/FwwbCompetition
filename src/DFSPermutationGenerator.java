@@ -47,6 +47,10 @@ public class DFSPermutationGenerator {
         return allResults;
     }
 
+    public float[] getGoods() {
+        return goods;
+    }
+
     public static void main(String[] args) {
         WeightGraph graph = new WeightGraph();
         DFSPermutationGenerator generator = new DFSPermutationGenerator(graph);

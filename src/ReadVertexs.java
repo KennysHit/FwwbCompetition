@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ReadVertexs {
+
 	private  Map<Integer, Vertex> mapPoint = new HashMap<Integer, Vertex>();
 	
 	private ReadVertexs() {

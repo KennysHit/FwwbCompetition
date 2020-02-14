@@ -72,7 +72,7 @@ public class Road {
 	private float calculateDistance() {
     	float distance = (float) Math.sqrt(Math.pow(this.vertexA.getLocation().getX()- vertexB.getLocation().getX(), 2) +
     			Math.pow(this.vertexA.getLocation().getY()- vertexB.getLocation().getY(), 2));
-		BigDecimal bd = new BigDecimal(distance);
+		BigDecimal bd = new BigDecimal(distance/30);
 		return bd.setScale(2, BigDecimal.ROUND_DOWN).floatValue();
     }
 	
