@@ -1,23 +1,21 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 public class DFSPermutationGenerator {
     private WeightGraph weightgraph;
     private boolean[] used;
     private int[] result;
     private float[] goods;
-    private LinkedList<int[]> allResults;
+    private ArrayList<int[]> allResults;
 
     public DFSPermutationGenerator(WeightGraph weightGraph) {
         this.weightgraph = weightGraph;
         goods = weightGraph.getGoods();
         used = new boolean[weightGraph.getV()+1];
         result = new int[weightGraph.getV()-1];
-        allResults = new LinkedList<int[]>();
+        allResults = new ArrayList<int[]>();
 
         find(0);
+
     }
 
     private void find(int level) {
@@ -30,10 +28,12 @@ public class DFSPermutationGenerator {
             }
 
         if (level == weightgraph.getV() - 1) {
+
             boolean isAdd = true;
 
             for(int i=0;i<weightgraph.getV()-2;i++)
                 if(!weightgraph.hasEdge(result[i], result[i+1])) isAdd = false;
+
 
             if(isAdd){
                 int[] a = (int[])result.clone();
@@ -52,11 +52,9 @@ public class DFSPermutationGenerator {
     }
 
     public static void main(String[] args) {
-        WeightGraph graph = new WeightGraph();
-        DFSPermutationGenerator generator = new DFSPermutationGenerator(graph);
+        WeightGraph weightGraph = new WeightGraph();
+        DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
 
-        for(int[] w: generator.getAllResult())
-            System.out.println(Arrays.toString(w));
     }
 
 }

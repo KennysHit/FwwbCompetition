@@ -19,8 +19,8 @@ public class WeightGraph {
         Scanner scanner2;
 
         try {
-            scanner1 = new Scanner(new File("data/graph.txt"));
-            scanner2 = new Scanner(new File("data/weight.txt"));
+            scanner1 = new Scanner(new File("data/testGraph.txt"));
+            scanner2 = new Scanner(new File("data/testWeight.txt"));
             V = scanner1.nextInt();
             adj = new TreeMap[V];
             goods = new float[V];
@@ -86,7 +86,7 @@ public class WeightGraph {
 
     private void readGoods(){
         try {
-            Scanner scanner = new Scanner(new File("data/goods.txt"));
+            Scanner scanner = new Scanner(new File("data/testGoods.txt"));
 
             for(int i=0;i<getV();i++)
                 goods[i] = scanner.nextFloat();
