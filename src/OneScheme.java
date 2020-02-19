@@ -7,78 +7,98 @@ import java.util.Arrays;
 public class OneScheme {
 
     private WeightGraph weightGraph;
+    private Floyed floyed;
     private int[] permutation;
     private float ct; //countTime: 总时长
-    private float ate; //averageTimeEfficiency: 总的时间利用率
+    private float ate; //averageTimeEfficiency: 平均时间利用率
     private float ucce; //useCarCostEfficiency: 车辆成本效率
+    private float alf; //averageLoadFactor: 平均装载率
     private float[] goods; //每个分区的货物量
     private int dt; //DistributionTimes: 配送次数
     private int[] area; //保存分区方式
-
-    private int RD = 10; //RUNNING_SPEED: 行驶速度10(km)/1(h)
-    private int MDL = 35; //MAX_DRIVE_LENGTH: 单次最大行驶长度35(km)
-    private int TD = 4; //IME_DIVISOR: 单次行程时间效率的除数4(h)
-    private float BCL= 5; //BIG_CAR_LOAD: 大车载重5(t)
-    private float LCL= 2; //LITTLE_CAR_LOAD: 小车载重2(t)
-    private float LCCE = (float) 0.2; //LITTLE_CAR_COST_EFFICIENCY: 小车成本率0.2
-    private float BCCE = (float) 0.5; //BIG_CAR_COST_EFFICIENCY: 大车成本率0.5
+    private boolean[] visited;
 
     public OneScheme(int[] permutation, WeightGraph weightGraph) {
         this.permutation = permutation;
         this.weightGraph = weightGraph;
+        floyed = new Floyed(weightGraph);
         ct = 0;
         ate = 0;
         ucce = 0;
-        dt = 0;
+        dt = 1;
+        alf = 0;
         goods = weightGraph.getGoods();
         area = new int[weightGraph.getV()-1];
-        cutArea();
+        visited = new boolean[weightGraph.getV()-1];
+        cutArea(0, 0, 0, 0);
+        reserveTwoDecimalFractions();
     }
 
     /**
      * 根据最大负载和最大行驶路径分区
      */
-    private void cutArea(){
-        int areaNum = 0;
-        float roadCount = 0 ;
-        float goodsCount = 0;
-        for(int i=0;i<permutation.length;i++){
-            if(goodsCount==0)
-                roadCount = weightGraph.getWeight(0, permutation[i]);
-            else
-                roadCount = roadCount + weightGraph.getWeight(permutation[i], permutation[i-1]) + weightGraph.getWeight(0,permutation[i]);
-            goodsCount = goodsCount + goods[permutation[i]];
+    private boolean cutArea(int km, float gs, int i, int a){
 
-            if (roadCount< MDL && goodsCount<BCL) {
-                if (roadCount != weightGraph.getWeight(0, permutation[i]))
-                    roadCount = roadCount - weightGraph.getWeight(0, permutation[i]);
-                area[permutation[i]-1] = areaNum;
+        if (i==permutation.length){
+            km = km + weightGraph.getWeight(0, permutation[i-1]);
+            ct = ct + ((float) km / 10);
 
-            } else{
-                //System.out.println(String.format("roadCount: %f\ngoodsCount: %f\nareaNum: %d\n", roadCount, goodsCount, areaNum));
-                ct = ct + roadCount / RD;
-                dt++;
-                ate = ate + (roadCount / RD) / TD;
-                if(goodsCount<=LCL)
-                    ucce = ucce + LCCE;
-                else
-                    ucce = ucce + BCCE;
-                i--;
-                areaNum++;
-                roadCount = 0;
-                goodsCount = 0;
+            ate = (ate + ((float) km / 10) / 4) / dt;
+            if (gs < 2) {
+                ucce = ucce + (float) 0.2;
+                alf = (alf + gs / 2) / dt;
+            } else {
+                ucce = ucce + (float) 0.5;
+                alf = (alf + gs / 5) / dt;
             }
+            System.out.println(km);
+            System.out.println(gs);
+            System.out.println(dt);
+            return true;
         }
-        ate = ate / dt;
-        reserveTwoDecimalFractions();
+        area[i] = a;
+        if (gs == 0)
+            //System.out.println(km + floyed.distanceTo(0, permutation[i]));
+            km = km + floyed.distanceTo(0, permutation[i]);
+        else
+            km = km + weightGraph.getWeight(permutation[i], permutation[i-1]);
+        float rkm = km + floyed.distanceTo(0, permutation[i]);
+        gs = gs + goods[permutation[i]];
+
+        if (rkm<=35 && gs<=5)
+            if (cutArea(km, gs, i+1, a))
+                return true;
+            else {
+                System.out.println(rkm);
+                System.out.println(gs);
+                System.out.println(dt);
+                System.out.println();
+                dt++;
+                ct = ct + rkm / 10;
+                ate = ate + ((rkm / 10) / 4);
+                if (gs < 2) {
+                    ucce = ucce + (float) 0.2;
+                    alf = alf + gs / 2;
+                } else {
+                    ucce = ucce + (float) 0.5;
+                    alf = alf + gs / 5;
+                }
+
+                cutArea(0, 0, i+1, a+1);
+                return true;
+            }
+        else
+            return false;
+
     }
 
     /**
      * reserve two decimal fractions：保留两位小数
      */
     public void reserveTwoDecimalFractions(){
-        ct = new BigDecimal(ct).setScale(2, BigDecimal.ROUND_DOWN).floatValue();
-        ate = new BigDecimal(ate).setScale(2, BigDecimal.ROUND_DOWN).floatValue();
+        ct = new BigDecimal(ct).setScale(2, BigDecimal.ROUND_HALF_DOWN).floatValue();
+        ate = new BigDecimal(ate).setScale(2, BigDecimal.ROUND_HALF_DOWN).floatValue();
+        alf = new BigDecimal(alf).setScale(2, BigDecimal.ROUND_HALF_DOWN).floatValue();
     }
 
     /**
@@ -113,6 +133,7 @@ public class OneScheme {
         return "OneScheme{" +
                 "countTime=" + ct +
                 "; averageTimeEfficiency=" + ate +
+                "; averageLoadFactor=" + alf +
                 "; useCarCostEfficiency=" + ucce +
                 "; DistributionTimest=" + dt +
                 "; area=" + Arrays.toString(area) +
@@ -120,14 +141,18 @@ public class OneScheme {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph();
+        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
 
-        for(int[] w: dfsPermutationGenerator.getAllResult()){
-            OneScheme oneScheme = new OneScheme(w, weightGraph);
-            System.out.println(Arrays.toString(w));
-            System.out.println(oneScheme);
-        }
+//        for(int[] w: dfsPermutationGenerator.getAllResult()){
+//            OneScheme oneScheme = new OneScheme(w, weightGraph);
+//            System.out.println(Arrays.toString(w));
+//            System.out.println(oneScheme);
+//        }
+        int[] w = dfsPermutationGenerator.getAllResult().iterator().next();
+        OneScheme oneScheme = new OneScheme(w, weightGraph);
+        System.out.println(Arrays.toString(w));
+        System.out.println(oneScheme);
 
     }
 }
