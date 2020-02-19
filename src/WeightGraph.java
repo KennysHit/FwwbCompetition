@@ -16,9 +16,9 @@ public class WeightGraph {
     @SuppressWarnings("unchecked")
     public WeightGraph(String fileName) {
         Scanner scanner1;
-
+        File file = new File(fileName);
         try {
-            scanner1 = new Scanner(new File("data/graph.txt"));
+            scanner1 = new Scanner(file);
             V = scanner1.nextInt();
             adj = new TreeMap[V];
             goods = new float[V];
@@ -85,7 +85,8 @@ public class WeightGraph {
 
     private void readGoods(){
         try {
-            Scanner scanner = new Scanner(new File("data/goods.txt"));
+
+            Scanner scanner = new Scanner(new File("data/testGoods.txt"));
 
             for(int i=0;i<getV();i++)
                 goods[i] = scanner.nextFloat();
@@ -117,7 +118,6 @@ public class WeightGraph {
     }
 
     public static void main(String[] args) {
-       WeightGraph weightGraph = new WeightGraph("data/graph.txt");
-       System.out.println(weightGraph);
+
     }
 }

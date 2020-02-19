@@ -50,8 +50,18 @@ public class DFSPermutationGenerator {
     public static void main(String[] args) {
         WeightGraph weightGraph = new WeightGraph("data/graph");
         DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
-        for (int[] w: dfsPermutationGenerator.allResults)
-            System.out.println(Arrays.toString(w));
+        float minWeight = Float.MAX_VALUE;
+        OneScheme minScheme = null;
+        for (int[] w: dfsPermutationGenerator.allResults){
+            OneScheme oneScheme = new OneScheme(w, weightGraph);
+            if (oneScheme.getWeightValue() < minWeight){
+                minWeight = oneScheme.getWeightValue();
+                minScheme = oneScheme;
+            }
+        }
+        System.out.println(Arrays.toString(minScheme.getPermutation()));
+        System.out.println(Arrays.toString(minScheme.getArea()));
+        System.out.println(minWeight);
     }
 
 }

@@ -11,10 +11,10 @@ public class OneScheme {
     private int[] permutation;
     private float ct; //countTime: 总时长
     private float ate; //averageTimeEfficiency: 平均时间利用率
-    private float ucce; //useCarCostEfficiency: 车辆成本效率
+    private float coce; //costOfCarsEfficiency: 车辆利用率
     private float alf; //averageLoadFactor: 平均装载率
-    private float[] goods; //每个分区的货物量
     private int dt; //DistributionTimes: 配送次数
+    private float[] goods; //每个分区的货物量
     private int[] area; //保存分区方式
     private boolean[] visited;
 
@@ -24,7 +24,7 @@ public class OneScheme {
         floyed = new Floyed(weightGraph);
         ct = 0;
         ate = 0;
-        ucce = 0;
+        coce = 0;
         dt = 1;
         alf = 0;
         goods = weightGraph.getGoods();
@@ -40,23 +40,25 @@ public class OneScheme {
     private boolean cutArea(int km, float gs, int i, int a){
 
         if (i==permutation.length){
-            km = km + weightGraph.getWeight(0, permutation[i-1]);
+
+            km = km + floyed.distanceTo(0, permutation[i-1]);
             ct = ct + ((float) km / 10);
 
             ate = (ate + ((float) km / 10) / 4) / dt;
             if (gs < 2) {
-                ucce = ucce + (float) 0.2;
+                coce = coce + (float) 0.2;
                 alf = (alf + gs / 2) / dt;
             } else {
-                ucce = ucce + (float) 0.5;
+                coce = coce + (float) 0.5;
                 alf = (alf + gs / 5) / dt;
             }
-            System.out.println(km);
-            System.out.println(gs);
-            System.out.println(dt);
+//            System.out.println(km);
+//            System.out.println(gs);
+//            System.out.println(dt);
             return true;
         }
-        area[i] = a;
+        area[permutation[i]-1] = a;
+
         if (gs == 0)
             //System.out.println(km + floyed.distanceTo(0, permutation[i]));
             km = km + floyed.distanceTo(0, permutation[i]);
@@ -69,18 +71,18 @@ public class OneScheme {
             if (cutArea(km, gs, i+1, a))
                 return true;
             else {
-                System.out.println(rkm);
-                System.out.println(gs);
-                System.out.println(dt);
-                System.out.println();
+//                System.out.println(rkm);
+//                System.out.println(gs);
+//                System.out.println(dt);
+//                System.out.println();
                 dt++;
                 ct = ct + rkm / 10;
                 ate = ate + ((rkm / 10) / 4);
                 if (gs < 2) {
-                    ucce = ucce + (float) 0.2;
+                    coce = coce + (float) 0.2;
                     alf = alf + gs / 2;
                 } else {
-                    ucce = ucce + (float) 0.5;
+                    coce = coce + (float) 0.5;
                     alf = alf + gs / 5;
                 }
 
@@ -104,12 +106,13 @@ public class OneScheme {
     /**
      * 计算权值
      * 权重：
-     * ct: 0.442220
-     * ucce: 0.422549
-     * ate: 0.135231
+     * ct: 0.28470325
+     * ate: 0.13310118
+     * alf: 0.306273
+     * cCoce: 0.27592254
      */
-    private float getWeightValue(){
-        return (float)( getCt() * 0.442220 + getUcce() * 0.422549 + getAte() * 0.135231 );
+    public float getWeightValue(){
+        return (float)( -getCt() * 0.28 + getAte() * 0.14 + getAlf() * 0.3 - getCoce() * 0.28 );
     }
 
     public float getCt() {
@@ -120,12 +123,24 @@ public class OneScheme {
         return ate;
     }
 
-    public float getUcce() {
-        return ucce;
+    public float getCoce() {
+        return coce;
+    }
+
+    public float getAlf() {
+        return alf;
+    }
+
+    public int[] getPermutation() {
+        return permutation;
     }
 
     public int[] getArea() {
         return area;
+    }
+
+    public int getDt() {
+        return dt;
     }
 
     @Override
@@ -134,7 +149,7 @@ public class OneScheme {
                 "countTime=" + ct +
                 "; averageTimeEfficiency=" + ate +
                 "; averageLoadFactor=" + alf +
-                "; useCarCostEfficiency=" + ucce +
+                "; useCarCostEfficiency=" + coce +
                 "; DistributionTimest=" + dt +
                 "; area=" + Arrays.toString(area) +
                 '}';
@@ -143,16 +158,5 @@ public class OneScheme {
     public static void main(String[] args) {
         WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
-
-//        for(int[] w: dfsPermutationGenerator.getAllResult()){
-//            OneScheme oneScheme = new OneScheme(w, weightGraph);
-//            System.out.println(Arrays.toString(w));
-//            System.out.println(oneScheme);
-//        }
-        int[] w = dfsPermutationGenerator.getAllResult().iterator().next();
-        OneScheme oneScheme = new OneScheme(w, weightGraph);
-        System.out.println(Arrays.toString(w));
-        System.out.println(oneScheme);
-
     }
 }
