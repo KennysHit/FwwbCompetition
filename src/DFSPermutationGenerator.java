@@ -17,6 +17,10 @@ public class DFSPermutationGenerator {
 
     }
 
+    /**
+     * 深度优先遍历的方式找出所有点排列组合并筛选
+     * @param level
+     */
     private void find(int level) {
         for (int i = 2; i <= weightgraph.getV() ; i++)
             if (!used[i]) {
@@ -48,20 +52,10 @@ public class DFSPermutationGenerator {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/graph");
+        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
-        float minWeight = Float.MAX_VALUE;
-        OneScheme minScheme = null;
-        for (int[] w: dfsPermutationGenerator.allResults){
-            OneScheme oneScheme = new OneScheme(w, weightGraph);
-            if (oneScheme.getWeightValue() < minWeight){
-                minWeight = oneScheme.getWeightValue();
-                minScheme = oneScheme;
-            }
-        }
-        System.out.println(Arrays.toString(minScheme.getPermutation()));
-        System.out.println(Arrays.toString(minScheme.getArea()));
-        System.out.println(minWeight);
+        for (int[] w: dfsPermutationGenerator.allResults)
+            System.out.println(Arrays.toString(w));
     }
 
 }

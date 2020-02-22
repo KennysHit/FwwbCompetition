@@ -96,7 +96,7 @@ public class Dijkstra {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("graphData/weightGraph.txt");
+        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         Dijkstra dijkstra = new Dijkstra(weightGraph, 0);
         System.out.println(dijkstra.distanceTo(6));
         System.out.println(dijkstra.findPath(6));

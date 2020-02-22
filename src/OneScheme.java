@@ -30,21 +30,25 @@ public class OneScheme {
         goods = weightGraph.getGoods();
         area = new int[weightGraph.getV()-1];
         visited = new boolean[weightGraph.getV()-1];
-        cutArea(0, 0, 0, 0);
+        cutArea(0, 0, 0, 0, 0);
         reserveTwoDecimalFractions();
     }
 
     /**
      * 根据最大负载和最大行驶路径分区
+     * km：单次行程记录的公里数
+     * gs：单次行程记录的货物量
+     * i：记录permutation数组下标
+     * a：分区号
+     * r：记录单次行程卸货花费的时长
      */
-    private boolean cutArea(int km, float gs, int i, int a){
-
+    private boolean cutArea(float km, float gs, int i, int a, float r){
         if (i==permutation.length){
 
             km = km + floyed.distanceTo(0, permutation[i-1]);
-            ct = ct + ((float) km / 10);
+            ct = ct + (km / 10) + r;
 
-            ate = (ate + ((float) km / 10) / 4) / dt;
+            ate = (float) ((ate + ((km / 10) + r) / 3.5) / dt);
             if (gs < 2) {
                 coce = coce + (float) 0.2;
                 alf = (alf + gs / 2) / dt;
@@ -52,15 +56,11 @@ public class OneScheme {
                 coce = coce + (float) 0.5;
                 alf = (alf + gs / 5) / dt;
             }
-//            System.out.println(km);
-//            System.out.println(gs);
-//            System.out.println(dt);
             return true;
         }
         area[permutation[i]-1] = a;
-
+        r = r + (float) (1 / 12);
         if (gs == 0)
-            //System.out.println(km + floyed.distanceTo(0, permutation[i]));
             km = km + floyed.distanceTo(0, permutation[i]);
         else
             km = km + weightGraph.getWeight(permutation[i], permutation[i-1]);
@@ -68,16 +68,12 @@ public class OneScheme {
         gs = gs + goods[permutation[i]];
 
         if (rkm<=35 && gs<=5)
-            if (cutArea(km, gs, i+1, a))
+            if (cutArea(km, gs, i+1, a, r))
                 return true;
             else {
-//                System.out.println(rkm);
-//                System.out.println(gs);
-//                System.out.println(dt);
-//                System.out.println();
                 dt++;
-                ct = ct + rkm / 10;
-                ate = ate + ((rkm / 10) / 4);
+                ct = ct + rkm / 10 + r;
+                ate = (float) (ate + (((rkm / 10) + r) / 3.5));
                 if (gs < 2) {
                     coce = coce + (float) 0.2;
                     alf = alf + gs / 2;
@@ -86,7 +82,7 @@ public class OneScheme {
                     alf = alf + gs / 5;
                 }
 
-                cutArea(0, 0, i+1, a+1);
+                cutArea(0, 0, i+1, a+1, 0);
                 return true;
             }
         else
