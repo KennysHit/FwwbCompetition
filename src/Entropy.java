@@ -15,14 +15,14 @@ public class Entropy {
 
     public Entropy(){
         WeightGraph weightGraph = new WeightGraph("data/graph.txt");
-        DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
+        PermutationGenerator permutationGenerator = new PermutationGenerator(weightGraph);
         data = new ArrayList<float[]>();
         T = 0;
         O = 0;
         K = 0;
         U = 0;
         L = 0;
-        for (int[] w:dfsPermutationGenerator.getAllResult()){
+        for (int[] w: permutationGenerator.getAllResult()){
             float[] result = new float[5];
             OneScheme oneScheme = new OneScheme(w, weightGraph);
             result[0] = oneScheme.getT();

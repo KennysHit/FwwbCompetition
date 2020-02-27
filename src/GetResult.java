@@ -8,9 +8,9 @@ public class GetResult {
 
     public GetResult(WeightGraph weightGraph){
         this.weightGraph = weightGraph;
-        DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
+        PermutationGenerator permutationGenerator = new PermutationGenerator(weightGraph);
         float minWeight = -999;
-        for (int[] w: dfsPermutationGenerator.getAllResult()){
+        for (int[] w: permutationGenerator.getAllResult()){
             OneScheme oneScheme = new OneScheme(w, weightGraph);
             if (oneScheme.getWeightValue() > minWeight){
                 minWeight = oneScheme.getWeightValue();

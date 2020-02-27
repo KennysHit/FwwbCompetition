@@ -164,8 +164,8 @@ public class OneScheme {
 
     public static void main(String[] args) {
         WeightGraph weightGraph = new WeightGraph("data/graph.txt");
-        DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
-        ArrayList<int[]> arrayList = (ArrayList<int[]>) dfsPermutationGenerator.getAllResult();
+        PermutationGenerator permutationGenerator = new PermutationGenerator(weightGraph);
+        ArrayList<int[]> arrayList = (ArrayList<int[]>) permutationGenerator.getAllResult();
         for (int[] w: arrayList){
             OneScheme oneScheme = new OneScheme(w, weightGraph);
             System.out.println(oneScheme);
