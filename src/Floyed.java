@@ -26,6 +26,7 @@ public class Floyed {
 
     }
 
+    //判断v，w两点是否直接相连
     public boolean isConnected(int v, int w){
 
         weightGraph.validateVertex(v);
@@ -35,6 +36,7 @@ public class Floyed {
 
     }
 
+    //是否存在负权边
     public boolean hasNegativeCycle(){
 
         for (int v=0;v<weightGraph.getV();v++)
@@ -45,6 +47,7 @@ public class Floyed {
 
     }
 
+    //返回v，w两点之间最短路径的距离
     public int distanceTo(int v, int w){
 
         weightGraph.validateVertex(v);

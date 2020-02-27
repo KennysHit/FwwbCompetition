@@ -11,13 +11,13 @@ public class OneScheme {
     private Floyed floyed;
     private int[] permutation;
     private float T; // 总时长
-    private float O; // 平均时间利用率
-    private float U; // 车辆利用指数
+    private float O; // 平均时效
+    private float U; // 车辆成本指标
     private float K; // 平均装载率
-    private float L; //平均配送配送订单数
+    private float L; //平均配送订单量
     private int n; // 配送次数
     private float[] goods; //每个分区的货物量
-    private int[] area; //保存分区方式
+    private int[] area; //保存分区方式 假设数组下标从1开始为各个顶点。数组各元素值为分区号，分区号相同的为同一分区
     private boolean[] visited;
 
     public OneScheme(int[] permutation, WeightGraph weightGraph) {
