@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -13,7 +12,6 @@ public class WeightGraph {
     private TreeMap<Integer, Integer>[] adj;
     private float[] goods;
 
-    @SuppressWarnings("unchecked")
     public WeightGraph(String fileName) {
         Scanner scanner1;
         File file = new File(fileName);

@@ -6,35 +6,39 @@ import java.util.ArrayList;
 public class Entropy {
 
     private ArrayList<float[]> data;
-    private float cCt;
-    private float cAte;
-    private float cAlf;
-    private float cCoce;
+    private float T;
+    private float O;
+    private float K;
+    private float U;
+    private float L;
     private float k;
 
     public Entropy(){
         WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         DFSPermutationGenerator dfsPermutationGenerator = new DFSPermutationGenerator(weightGraph);
         data = new ArrayList<float[]>();
-        cCt = 0;
-        cAte = 0;
-        cAlf = 0;
-        cCoce = 0;
+        T = 0;
+        O = 0;
+        K = 0;
+        U = 0;
+        L = 0;
         for (int[] w:dfsPermutationGenerator.getAllResult()){
-            float[] result = new float[4];
+            float[] result = new float[5];
             OneScheme oneScheme = new OneScheme(w, weightGraph);
-            result[0] = oneScheme.getCt();
-            result[1] = oneScheme.getAte();
-            result[2] = oneScheme.getAlf();
-            result[3] = oneScheme.getCoce();
+            result[0] = oneScheme.getT();
+            result[1] = oneScheme.getO();
+            result[2] = oneScheme.getK();
+            result[3] = oneScheme.getU();
+            result[4] = oneScheme.getL();
             data.add(result);
-            cCt = cCt + result[0];
-            cAte = cAte + result[1];
-            cAlf = cAlf + result[2];
-            cCoce = cCoce + result[3];
-            System.out.println(result[0] + " " + result[1] + " " + result[2] + " " + result[3]);
+            T = T + result[0];
+            O = O + result[1];
+            K = K + result[2];
+            U = U + result[3];
+            L = L + result[4];
+            System.out.println(result[0] + " " + result[1] + " " + result[2] + " " + result[3] + " " + result[4] );
         }
-        System.out.println(cCt+ " " + cAte + " " + cAlf + " " + cCoce);
+        System.out.println(T + " " + O + " " + K + " " + U + " " + L);
         System.out.println();
         k = 1 / (float) Math.log(data.size());
         first();
@@ -44,11 +48,12 @@ public class Entropy {
 
     private void first(){
         for (float[] w: data){
-            w[0] = w[0] / cCt;
-            w[1] = w[1] / cAte;
-            w[2] = w[2] / cAlf;
-            w[3] = w[3] / cCoce;
-            System.out.println(w[0] + " " + w[1] + " " + w[2] + " " + w[3]);
+            w[0] = w[0] / T;
+            w[1] = w[1] / O;
+            w[2] = w[2] / K;
+            w[3] = w[3] / U;
+            w[4] = w[4] / L;
+            System.out.println(w[0] + " " + w[1] + " " + w[2] + " " + w[3] + " " + w[4]);
         }
         System.out.println();
     }
@@ -59,41 +64,47 @@ public class Entropy {
             w[1] = -(float) Math.log(w[1]) * w[1];
             w[2] = -(float) Math.log(w[2]) * w[2];
             w[3] = -(float) Math.log(w[3]) * w[3];
-            System.out.println(w[0] + " " + w[1] + " " + w[2] + " " + w[3]);
+            w[4] = -(float) Math.log(w[4]) * w[4];
+            System.out.println(w[0] + " " + w[1] + " " + w[2] + " " + w[3] + " " + w[4]);
         }
         System.out.println();
     }
 
     private void third(){
-        float w1 = 0, w2 = 0, w3 = 0, w4 = 0;
+        float w1 = 0, w2 = 0, w3 = 0, w4 = 0, w5 = 0;
         for (float[] w: data){
             w1 = w1 + w[0];
             w2 = w2 + w[1];
             w3 = w3 + w[2];
             w4 = w4 + w[3];
+            w5 = w5 + w[4];
         }
-        System.out.println(w1 + " " + w2 + " " + w3 + " " + w4);
+        System.out.println(w1 + " " + w2 + " " + w3 + " " + w4 + " " + w5 );
         System.out.println("k: " + k);
         w1 = 1 - k * w1;
         w2 = 1 - k * w2;
         w3 = 1 - k * w3;
         w4 = 1 - k * w4;
+        w5 = 1 - k * w5;
 
-        System.out.println(w1 + " " + w2 + " " + w3 + " " + w4);
-        float all = w1 + w2 + w3 + w4;
-        cCt = w1 / all;
-        cAte = w2 / all;
-        cAlf = w3 / all;
-        cCoce = w4 / all;
+        System.out.println(w1 + " " + w2 + " " + w3 + " " + w4 + " " + w5 );
+        float all = w1 + w2 + w3 + w4 + w5;
+        T = w1 / all;
+        O = w2 / all;
+        K = w3 / all;
+        U = w4 / all;
+        L = w5 / all;
     }
 
     @Override
     public String toString() {
         return "Entropy{" +
-                "cCt=" + cCt +
-                ", cAte=" + cAte +
-                ", cAlf=" + cAlf +
-                ", cCoce=" + cCoce +
+                "T=" + T +
+                ", O=" + O +
+                ", K=" + K +
+                ", U=" + U +
+                ", L=" + L +
+                ", sum=" + (T + O + K + U + L) +
                 '}';
     }
 

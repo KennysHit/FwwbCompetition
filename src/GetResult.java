@@ -1,6 +1,4 @@
-import java.nio.file.WatchEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GetResult {
 
@@ -19,16 +17,16 @@ public class GetResult {
                 maxScheme = oneScheme;
             }
         }
-        result = new ArrayList[maxScheme.getDt()];
-        for (int i=0;i<maxScheme.getDt();i++)
+        result = new ArrayList[maxScheme.getN()];
+        for (int i = 0; i<maxScheme.getN(); i++)
             result[i] = new ArrayList<Integer>();
         findDistributionScheme();
     }
 
     public void findDistributionScheme(){
         int j = 0;
-        ArrayList<Integer>[] arrayLists = new ArrayList[maxScheme.getDt()];
-        for (int i=0;i<maxScheme.getDt();i++) {
+        ArrayList<Integer>[] arrayLists = new ArrayList[maxScheme.getN()];
+        for (int i = 0; i<maxScheme.getN(); i++) {
             arrayLists[i] = new ArrayList<Integer>();
             for (int w : maxScheme.getPermutation())
                 if (maxScheme.getArea()[w - 1] == i)
@@ -57,7 +55,7 @@ public class GetResult {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("最佳配送方案: \n"));
-        for (int i=0;i<maxScheme.getDt();i++){
+        for (int i = 0; i<maxScheme.getN(); i++){
             stringBuilder.append(String.format("第%d次配送: ", i));
             for (int w: result[i]) {
                 stringBuilder.append(String.format("%d ", w));
