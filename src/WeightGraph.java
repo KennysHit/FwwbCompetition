@@ -5,7 +5,6 @@ import java.util.*;
 /**
  * 带权图结构类
  */
-
 public class WeightGraph {
     private int V; //节点的个数
     private int E; //所有节点之间边的个数
@@ -48,18 +47,22 @@ public class WeightGraph {
 
     }
 
+    //返回所有顶点的数量
     public int getV() {
         return V;
     }
 
-    public Iterable<Integer> getNeighbor(int i){
-        return adj[i].keySet();
+    //返回与点v相邻的点的集合
+    public Iterable<Integer> getNeighbor(int v){
+        return adj[v].keySet();
     }
 
+    //返回边的个数
     public int getE() {
         return E;
     }
 
+    //返回点v，w之间边的权值
     public int getWeight(int v, int w){
         if (hasEdge(v, w))
             return adj[v].get(w);
@@ -67,6 +70,7 @@ public class WeightGraph {
             throw new IllegalArgumentException(String.format("Has No Edge:%d-%d", v, w));
     }
 
+    //判断点v，w之间是否存在一条边
     public boolean hasEdge(int v, int w){
         validateVertex(v);
         validateVertex(w);
@@ -76,11 +80,18 @@ public class WeightGraph {
             return false;
     }
 
+    //检验点v的数值是否合法
     public void validateVertex(int v){
         if(v<0 || v>=getV())
             throw new IllegalArgumentException(String.format("Has No Vertex %d",v));
     }
 
+    //返回各点的货物量信息
+    public float[] getGoods(){
+        return goods;
+    }
+
+    //返回goods.txt文件中个点的货物量信息
     private void readGoods(){
         try {
 
@@ -92,10 +103,6 @@ public class WeightGraph {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public float[] getGoods(){
-        return goods;
     }
 
     @Override
