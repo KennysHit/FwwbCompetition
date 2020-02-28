@@ -56,9 +56,9 @@ public class GetResult {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("最佳配送方案: \n"));
         for (int i = 0; i<maxScheme.getN(); i++){
-            stringBuilder.append(String.format("第%d次配送: ", i));
+            stringBuilder.append(String.format("第%d次配送: ", i+1));
             for (int w: result[i]) {
-                stringBuilder.append(String.format("%d ", w));
+                stringBuilder.append(String.format("-> %d ", w));
             }
             stringBuilder.append("\n");
         }
@@ -66,7 +66,7 @@ public class GetResult {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
+        WeightGraph weightGraph = new WeightGraph("data/testGraph.txt");
         GetResult getResult = new GetResult(weightGraph);
         System.out.println(getResult);
     }

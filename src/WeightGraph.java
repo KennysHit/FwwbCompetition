@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-
 /**
  * 带权图结构类
  */
@@ -95,7 +94,7 @@ public class WeightGraph {
     private void readGoods(){
         try {
 
-            Scanner scanner = new Scanner(new File("data/goods.txt"));
+            Scanner scanner = new Scanner(new File("data/testGoods.txt"));
 
             for(int i=0;i<getV();i++)
                 goods[i] = scanner.nextFloat();

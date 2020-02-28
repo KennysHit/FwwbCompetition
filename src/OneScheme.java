@@ -51,7 +51,7 @@ public class OneScheme {
             km = km + floyed.distanceTo(0, permutation[i-1]);
             T = T + (km / 10) + t;
             L = L + p;
-            O = (float) ((O + ((km / 10) + t) / 3.5) / n);
+            O = (float) ((O + ((km / 10) + t) / 4) / n);
             L = L / n;
             if (g < 2) {
                 U = U + (float) 0.2;
@@ -79,7 +79,7 @@ public class OneScheme {
                 n++;
                 T = T + rkm / 10 + t;
                 L = L + p;
-                O = (float) (O + (((rkm / 10) + t) / 3.5));
+                O = (float) (O + (((rkm / 10) + t) / 4));
                 if (g < 2) {
                     U = U + (float) 0.2;
                     K = K + g / 2;
@@ -108,14 +108,14 @@ public class OneScheme {
     /**
      * 计算权值
      * 权重：
-     * T: 0.165
-     * O: 0.089
-     * K: 0.178
-     * U: 0.160
-     * L: 0.408
+     * K: 0.089
+     * L: 0.160
+     * O: 0.408
+     * T: 0.178
+     * U: 0.165
      */
     public float getWeightValue(){
-        return (float)( -getT() * 0.165 + getO() * 0.089 + getK() * 0.178 - getU() * 0.160 + getL() * 0.408);
+        return (float)( getK()*0.089 + getL()*0.160 + getO()*0.408 - getT()*0.178 - getU()*0.165);
     }
 
     public float getT() {
@@ -170,6 +170,6 @@ public class OneScheme {
             OneScheme oneScheme = new OneScheme(w, weightGraph);
             System.out.println(oneScheme);
         }
-        System.out.println(arrayList.size());
+        System.out.println("count: " + arrayList.size());
     }
 }

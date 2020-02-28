@@ -25,20 +25,20 @@ public class Entropy {
         for (int[] w: permutationGenerator.getAllResult()){
             float[] result = new float[5];
             OneScheme oneScheme = new OneScheme(w, weightGraph);
-            result[0] = oneScheme.getT();
-            result[1] = oneScheme.getO();
-            result[2] = oneScheme.getK();
-            result[3] = oneScheme.getU();
-            result[4] = oneScheme.getL();
+            result[0] = oneScheme.getK();
+            result[1] = oneScheme.getL();
+            result[2] = oneScheme.getO();
+            result[3] = oneScheme.getT();
+            result[4] = oneScheme.getU();
             data.add(result);
-            T = T + result[0];
-            O = O + result[1];
-            K = K + result[2];
-            U = U + result[3];
-            L = L + result[4];
+            K = K + result[0];
+            L = L + result[1];
+            O = O + result[2];
+            T = T + result[3];
+            U = U + result[4];
             System.out.println(result[0] + " " + result[1] + " " + result[2] + " " + result[3] + " " + result[4] );
         }
-        System.out.println(T + " " + O + " " + K + " " + U + " " + L);
+        System.out.println(K + " " + L + " " + O + " " + T + " " + U);
         System.out.println();
         k = 1 / (float) Math.log(data.size());
         first();
@@ -48,11 +48,11 @@ public class Entropy {
 
     private void first(){
         for (float[] w: data){
-            w[0] = w[0] / T;
-            w[1] = w[1] / O;
-            w[2] = w[2] / K;
-            w[3] = w[3] / U;
-            w[4] = w[4] / L;
+            w[0] = w[0] / K;
+            w[1] = w[1] / L;
+            w[2] = w[2] / O;
+            w[3] = w[3] / T;
+            w[4] = w[4] / U;
             System.out.println(w[0] + " " + w[1] + " " + w[2] + " " + w[3] + " " + w[4]);
         }
         System.out.println();
@@ -81,13 +81,20 @@ public class Entropy {
         }
         System.out.println(w1 + " " + w2 + " " + w3 + " " + w4 + " " + w5 );
         System.out.println("k: " + k);
-        w1 = 1 - k * w1;
-        w2 = 1 - k * w2;
-        w3 = 1 - k * w3;
-        w4 = 1 - k * w4;
-        w5 = 1 - k * w5;
+        w1 = k * w1;
+        w2 = k * w2;
+        w3 = k * w3;
+        w4 = k * w4;
+        w5 = k * w5;
 
-        System.out.println(w1 + " " + w2 + " " + w3 + " " + w4 + " " + w5 );
+        System.out.println("熵值：" + w1 + " " + w2 + " " + w3 + " " + w4 + " " + w5 );
+
+        w1 = 1 - w1;
+        w2 = 1 - w2;
+        w3 = 1 - w3;
+        w4 = 1 - w4;
+        w5 = 1 - w5;
+
         float all = w1 + w2 + w3 + w4 + w5;
         T = w1 / all;
         O = w2 / all;
@@ -99,11 +106,11 @@ public class Entropy {
     @Override
     public String toString() {
         return "Entropy{" +
-                "T=" + T +
-                ", O=" + O +
-                ", K=" + K +
-                ", U=" + U +
+                "K=" + K +
                 ", L=" + L +
+                ", O=" + O +
+                ", T=" + T +
+                ", U=" + U +
                 ", sum=" + (T + O + K + U + L) +
                 '}';
     }
