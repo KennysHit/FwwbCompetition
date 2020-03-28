@@ -94,7 +94,7 @@ public class WeightGraph {
     private void readGoods(){
         try {
 
-            Scanner scanner = new Scanner(new File("data/testGoods.txt"));
+            Scanner scanner = new Scanner(new File("data/goods.txt"));
 
             for(int i=0;i<getV();i++)
                 goods[i] = scanner.nextFloat();

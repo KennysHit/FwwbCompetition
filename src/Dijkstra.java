@@ -69,7 +69,7 @@ public class Dijkstra {
 
     }
 
-    public Iterable<Integer> findPath(int t){
+    public ArrayList<Integer> findPath(int t){
 
         weightGraph.validateVertex(t);
 
@@ -84,7 +84,6 @@ public class Dijkstra {
         }
         arrayList.add(t);
         Collections.reverse(arrayList);
-
         return arrayList;
     }
 

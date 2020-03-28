@@ -66,7 +66,7 @@ public class GetResult {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/testGraph.txt");
+        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         GetResult getResult = new GetResult(weightGraph);
         System.out.println(getResult);
     }
