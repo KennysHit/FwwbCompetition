@@ -158,7 +158,7 @@ public class OneScheme {
                 "; O=" + O +
                 "; T=" + T +
                 "; U=" + U +
-                "; area=" + Arrays.toString(area) +
+                "; all= " + (K + L + O + T + U) +
                 '}';
     }
 
@@ -168,7 +168,7 @@ public class OneScheme {
         ArrayList<int[]> arrayList = (ArrayList<int[]>) permutationGenerator.getAllResult();
         for (int[] w: arrayList){
             OneScheme oneScheme = new OneScheme(w, weightGraph);
-            System.out.println(oneScheme);
+            System.out.println(Arrays.toString(oneScheme.getArea()) + "～" + oneScheme.getWeightValue());
         }
         System.out.println("count: " + arrayList.size());
     }
