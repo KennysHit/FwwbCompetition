@@ -18,7 +18,12 @@ public class WeightGraph {
             V = scanner1.nextInt();
             adj = new TreeMap[V];
             goods = new float[V];
-            readGoods();
+            if (fileName.equals("data/graph.txt"))
+                readGoods("data/goods.txt");
+            else if(fileName.equals("data/testGraph1.txt"))
+                readGoods("data/testGoods1.txt");
+            else if(fileName.equals("data/testGraph2.txt"))
+                readGoods("data/testGoods2.txt");
 
             for(int i=0;i<V;i++)
                 adj[i] = new TreeMap<Integer, Integer>();
@@ -91,10 +96,10 @@ public class WeightGraph {
     }
 
     //返回goods.txt文件中个点的货物量信息
-    private void readGoods(){
+    private void readGoods(String fileName){
         try {
 
-            Scanner scanner = new Scanner(new File("data/goods.txt"));
+            Scanner scanner = new Scanner(new File(fileName));
 
             for(int i=0;i<getV();i++)
                 goods[i] = scanner.nextFloat();
@@ -122,6 +127,7 @@ public class WeightGraph {
     }
 
     public static void main(String[] args) {
-
+        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
+        System.out.println(weightGraph);
     }
 }
