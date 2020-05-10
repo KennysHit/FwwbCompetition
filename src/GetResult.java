@@ -9,7 +9,7 @@ public class GetResult {
     private ArrayList<Integer>[] point;
 
     public GetResult(WeightGraph weightGraph){
-
+        System.out.println("start...");
         long startTime = System.currentTimeMillis(); // 获取开始时间
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 
@@ -79,7 +79,7 @@ public class GetResult {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/testGraph2.txt");
+        WeightGraph weightGraph = new WeightGraph("data/testGraph3.txt");
         GetResult getResult = new GetResult(weightGraph);
         System.out.println(getResult);
     }

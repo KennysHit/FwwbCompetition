@@ -24,6 +24,8 @@ public class WeightGraph {
                 readGoods("data/testGoods1.txt");
             else if(fileName.equals("data/testGraph2.txt"))
                 readGoods("data/testGoods2.txt");
+            else if(fileName.equals("data/testGraph3.txt"))
+                readGoods("data/testGoods3.txt");
 
             for(int i=0;i<V;i++)
                 adj[i] = new TreeMap<Integer, Integer>();
