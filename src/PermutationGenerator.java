@@ -5,14 +5,16 @@ public class PermutationGenerator {
     private WeightGraph weightgraph;
     private boolean[] used;
     private int[] result;
-    private ArrayList<int[]> allResults;
+    private float min;
+    private OneScheme oneScheme;
+    private OneScheme maxScheme;
+    private int mark = 0;
 
     public PermutationGenerator(WeightGraph weightGraph) {
         this.weightgraph = weightGraph;
         used = new boolean[weightGraph.getV()+1];
         result = new int[weightGraph.getV()-1];
-        allResults = new ArrayList<int[]>();
-
+        min = -999;
         find(0);
 
     }
@@ -26,7 +28,7 @@ public class PermutationGenerator {
                 find(level + 1);
                 used[i] = false;
             }
-
+        System.out.println(Arrays.toString(result));
         if (level == weightgraph.getV() - 1) {
 
             boolean isAdd = true;
@@ -37,23 +39,24 @@ public class PermutationGenerator {
 
 
             if(isAdd){
-                int[] a = (int[])result.clone();
-                allResults.add(a);
+                oneScheme = new OneScheme(result, weightgraph);
+                if (min<oneScheme.getWeightValue()){
+                    min = oneScheme.getWeightValue();
+                    maxScheme = oneScheme;
+                }
             }
 
         }
     }
 
     //返回所有排列组合的数据集
-    public Iterable<int[]> getAllResult(){
-        return allResults;
+    public OneScheme getResult(){
+        return maxScheme;
     }
 
     public static void main(String[] args) {
         WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         PermutationGenerator permutationGenerator = new PermutationGenerator(weightGraph);
-        for (int[] w: permutationGenerator.allResults)
-            System.out.println(Arrays.toString(w));
+        System.out.println(Arrays.toString(permutationGenerator.getResult().getArea()));
     }
-
 }

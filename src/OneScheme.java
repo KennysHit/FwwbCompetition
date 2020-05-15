@@ -163,13 +163,6 @@ public class OneScheme {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
-        PermutationGenerator permutationGenerator = new PermutationGenerator(weightGraph);
-        ArrayList<int[]> arrayList = (ArrayList<int[]>) permutationGenerator.getAllResult();
-        for (int[] w: arrayList){
-            OneScheme oneScheme = new OneScheme(w, weightGraph);
-            System.out.println(Arrays.toString(oneScheme.getArea()) + "～" + oneScheme.getWeightValue());
-        }
-        System.out.println("count: " + arrayList.size());
+
     }
 }

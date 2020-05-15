@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GetResult {
 
@@ -15,14 +16,8 @@ public class GetResult {
 
         this.weightGraph = weightGraph;
         PermutationGenerator permutationGenerator = new PermutationGenerator(weightGraph);
-        float minWeight = -999;
-        for (int[] w: permutationGenerator.getAllResult()){
-            OneScheme oneScheme = new OneScheme(w, weightGraph);
-            if (oneScheme.getWeightValue() > minWeight){
-                minWeight = oneScheme.getWeightValue();
-                maxScheme = oneScheme;
-            }
-        }
+        maxScheme = permutationGenerator.getResult();
+
         road = new ArrayList[maxScheme.getN()];
         for (int i = 0; i<maxScheme.getN(); i++) {
             road[i] = new ArrayList<Integer>();
