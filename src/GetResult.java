@@ -17,7 +17,6 @@ public class GetResult {
         this.weightGraph = weightGraph;
         PermutationGenerator permutationGenerator = new PermutationGenerator(weightGraph);
         maxScheme = permutationGenerator.getResult();
-
         road = new ArrayList[maxScheme.getN()];
         for (int i = 0; i<maxScheme.getN(); i++) {
             road[i] = new ArrayList<Integer>();
@@ -74,7 +73,7 @@ public class GetResult {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/testGraph3.txt");
+        WeightGraph weightGraph = new WeightGraph("data/testGraph1.txt");
         GetResult getResult = new GetResult(weightGraph);
         System.out.println(getResult);
     }

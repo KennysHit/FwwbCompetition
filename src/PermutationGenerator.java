@@ -28,18 +28,19 @@ public class PermutationGenerator {
                 find(level + 1);
                 used[i] = false;
             }
-        System.out.println(Arrays.toString(result));
         if (level == weightgraph.getV() - 1) {
 
             boolean isAdd = true;
 
-            for(int i=0;i<weightgraph.getV()-2;i++)
-                if(!weightgraph.hasEdge(result[i], result[i+1]))
+            for(int i=0;i<weightgraph.getV()-2;i++) {
+                if (!weightgraph.hasEdge(result[i], result[i + 1])) {
                     isAdd = false;
-
+                }
+            }
 
             if(isAdd){
-                oneScheme = new OneScheme(result, weightgraph);
+                int a[] = result.clone();
+                oneScheme = new OneScheme(a, weightgraph);
                 if (min<oneScheme.getWeightValue()){
                     min = oneScheme.getWeightValue();
                     maxScheme = oneScheme;

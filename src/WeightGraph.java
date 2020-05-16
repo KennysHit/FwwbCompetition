@@ -129,7 +129,7 @@ public class WeightGraph {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/testGraph3.txt");
+        WeightGraph weightGraph = new WeightGraph("data/testGraph1.txt");
         System.out.println(weightGraph);
     }
 }
