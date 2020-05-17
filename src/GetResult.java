@@ -1,6 +1,5 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GetResult {
 
@@ -73,7 +72,7 @@ public class GetResult {
     }
 
     public static void main(String[] args) {
-        WeightGraph weightGraph = new WeightGraph("data/testGraph1.txt");
+        WeightGraph weightGraph = new WeightGraph("data/graph.txt");
         GetResult getResult = new GetResult(weightGraph);
         System.out.println(getResult);
     }

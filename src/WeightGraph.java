@@ -18,14 +18,7 @@ public class WeightGraph {
             V = scanner1.nextInt();
             adj = new TreeMap[V];
             goods = new float[V];
-            if (fileName.equals("data/graph.txt"))
-                readGoods("data/goods.txt");
-            else if(fileName.equals("data/testGraph1.txt"))
-                readGoods("data/testGoods1.txt");
-            else if(fileName.equals("data/testGraph2.txt"))
-                readGoods("data/testGoods2.txt");
-            else if(fileName.equals("data/testGraph3.txt"))
-                readGoods("data/testGoods3.txt");
+            readGoods("data/graph.txt");
 
             for(int i=0;i<V;i++)
                 adj[i] = new TreeMap<Integer, Integer>();
